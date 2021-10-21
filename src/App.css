@@ -23,8 +23,9 @@ html,body,.App,#root{
   cursor: pointer
 }
 .active{
-  background-color: gray;
-  color: white;
+  background-color: #ccc;
+  
+  border:none;
 }
 .form-group{
   width: 100%;
@@ -35,4 +36,19 @@ html,body,.App,#root{
   width: 100%;
 
 
+}
+.badge-available,.badge-booked
+{
+  padding:4px;
+  color: white;
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.badge-available{
+background-color: green;
+
+}
+.badge-booked{
+  background-color: red;
 }

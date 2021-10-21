@@ -1,22 +1,40 @@
 import { useEffect, useState } from "react";
 import { Typography, Box, Table, TableHead, Modal, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
 import BookNew from "./BookNew";
-import { slotArray } from "../Utils/slotsArray";
-const slotsArray = slotArray  //check utils file
+import Badge from './UI/Badge'
+import Axios from 'axios'
+// import { slotArray } from "../Utils/slotsArray";
+// const slotsArray = slotArray  //check utils file
 function Slots() {
 
-    const [slotState, setSlotState] = useState(slotsArray)
+    const [slotState, setSlotState] = useState([])
     const [selected, setSelected] = useState({
         isOpen: false,
         day: "",
         slot: "",
         key: -1
     })
-   useEffect(()=>{
-    if(localStorage.getItem("slots")){
-        setSlotState(JSON.parse(localStorage.getItem("slots")))
+    let callingSlotArray = async () => {
+        try {
+            let data = await Axios.get("/Json/slotsArray.json")
+            setSlotState(data.data)
+        }
+        catch (e) {
+            if (e.response)
+                console.log(e.response.data.message);
+            else {
+                console.log(e.message);
+            }
+        }
     }
-   },[])
+    useEffect(() => {
+        if (localStorage.getItem("slots")) {
+            setSlotState(JSON.parse(localStorage.getItem("slots")))
+        }
+        else {
+            callingSlotArray()
+        }
+    }, [])
     let activateForm = (ele, active) => {
         if (active)
             return
@@ -24,9 +42,9 @@ function Slots() {
 
     }
     let setBookSlot = (obj) => {
-     
+
         let slotCopy = JSON.stringify(slotState)
-        slotCopy=JSON.parse(slotCopy)
+        slotCopy = JSON.parse(slotCopy)
         slotCopy[obj.day][obj.key] = {
             slot: obj.slot,
             active: true,
@@ -41,7 +59,7 @@ function Slots() {
             key: -1
         })
         setSlotState(slotCopy)
-        localStorage.setItem("slots",JSON.stringify(slotCopy))
+        localStorage.setItem("slots", JSON.stringify(slotCopy))
     }
     let handleClose = () => {
         setSelected({
@@ -57,7 +75,7 @@ function Slots() {
         </Typography>
         <TableContainer
         >
-            <Table>
+            <Table sx={{ border: "1px solid #ccc" }}>
                 <TableHead>
                     <TableRow>
                         <TableCell>
@@ -82,15 +100,14 @@ function Slots() {
                         <TableCell>
                             Today
                         </TableCell>
-                        {slotState.today.map((element, key) => {
+                        {slotState && slotState.today && slotState.today.map((element, key) => {
                             return <TableCell key={key}>
-                                <span onClick={activateForm.bind(this, { day: 'today', slot: element.slot, key }, element.active)} className={element.active === true ? "slot_slab active" : "slot_slab"}>{element.slot}</span >
-                                {element.active === true &&
-                                    <div style={{ padding: "10px 0px" }}>
-                                        <strong>UserName</strong>: {element.username}<br/>
-                                        <strong>Email:</strong>{element.email}<br/>
-                                        <strong>Phone:</strong>{element.phone}
-                                    </div>}
+                                <span
+                                    onClick={activateForm.bind(this, { day: 'today', slot: element.slot, key }, element.active)}
+                                    className={element.active === true ? "slot_slab active" : "slot_slab"}>
+                                    {element.slot}
+                                </span >
+                                <Badge booked={element.active}>{element.active === true ? "Booked "+element.username : "Available"}</Badge>
                             </TableCell>
                         })}
                     </TableRow>
@@ -98,15 +115,15 @@ function Slots() {
                         <TableCell>
                             Tomorrow
                         </TableCell>
-                        {slotState.tomorrow.map((element, key) => {
+                        {slotState && slotState.tomorrow && slotState.tomorrow.map((element, key) => {
                             return <TableCell key={key}>
-                                <span onClick={activateForm.bind(this, { day: 'tomorrow', slot: element.slot, key }, element.active)} className={element.active === true ? "slot_slab active" : "slot_slab"}>{element.slot}</span>
-                                {element.active === true &&
-                                        <div style={{ padding: "10px 0px" }}>
-                                        <strong>UserName</strong>: {element.username}<br/>
-                                        <strong>Email:</strong>{element.email}<br/>
-                                        <strong>Phone:</strong>{element.phone}
-                                    </div>}
+                                <span
+                                    onClick={activateForm.bind(this, { day: 'tomorrow', slot: element.slot, key }, element.active)}
+                                    className={element.active === true ? "slot_slab active" : "slot_slab"}>
+                                    {element.slot}
+                                </span>
+                                <Badge booked={element.active}>{element.active === true ? "Booked "+element.username : "Available"}</Badge>
+                             
                             </TableCell>
                         })}
                     </TableRow>
@@ -114,15 +131,15 @@ function Slots() {
                         <TableCell>
                             Day After Tomorrow
                         </TableCell>
-                        {slotState.dayAfterTomorrow.map((element, key) => {
+                        {slotState && slotState.dayAfterTomorrow && slotState.dayAfterTomorrow.map((element, key) => {
                             return <TableCell key={key}>
-                                <span onClick={activateForm.bind(this, { day: 'dayAfterTomorrow', slot: element.slot, key }, element.active)} className={element.active === true ? "slot_slab active" : "slot_slab"}>{element.slot}</span>
-                                {element.active === true &&
-                                       <div style={{ padding: "10px 0px" }}>
-                                       <strong>UserName</strong>: {element.username}<br/>
-                                       <strong>Email:</strong>{element.email}<br/>
-                                       <strong>Phone:</strong>{element.phone}
-                                   </div>}
+                                <span
+                                    onClick={activateForm.bind(this, { day: 'dayAfterTomorrow', slot: element.slot, key }, element.active)}
+                                    className={element.active === true ? "slot_slab active" : "slot_slab"}>
+                                    {element.slot}
+                                </span>
+                                <Badge booked={element.active}>{element.active === true ? "Booked "+element.username : "Available"}</Badge>
+                                {element.active === true && <Badge>hello</Badge>}
                             </TableCell>
                         })}
                     </TableRow>
@@ -130,7 +147,7 @@ function Slots() {
             </Table>
         </TableContainer>
         <Modal
-            sx={{border:"none"}}
+            sx={{ border: "none" }}
             open={selected.isOpen}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
