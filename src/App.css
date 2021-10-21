@@ -24,7 +24,7 @@ html,body,.App,#root{
 }
 .active{
   background-color: #ccc;
-  
+  cursor:progress;
   border:none;
 }
 .form-group{
@@ -51,4 +51,13 @@ background-color: green;
 }
 .badge-booked{
   background-color: red;
+}
+span.slot_slab{
+  display: inline;
+}
+@media screen and (max-width:976px) {
+  span.slot_slab{
+    display: block;
+  }
+  
 }

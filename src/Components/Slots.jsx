@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Typography, Box, Table, TableHead, Modal, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
+import { Typography, Box, Table, TableHead, Modal, TableBody, TableCell, TableContainer, TableRow, Grid } from '@mui/material'
 import BookNew from "./BookNew";
 import Badge from './UI/Badge'
 import Axios from 'axios'
@@ -73,6 +73,7 @@ function Slots() {
         <Typography variant="h2" className="text-center" sx={{ marginBottom: "40px" }}>
             Book Your Slot
         </Typography>
+        <br/> <br/> <br/>
         <TableContainer
         >
             <Table sx={{ border: "1px solid #ccc" }}>
@@ -107,7 +108,7 @@ function Slots() {
                                     className={element.active === true ? "slot_slab active" : "slot_slab"}>
                                     {element.slot}
                                 </span >
-                                <Badge booked={element.active}>{element.active === true ? "Booked "+element.username : "Available"}</Badge>
+                                <Badge booked={element.active}>{element.active === true ? "Booked " + element.username : "Available"}</Badge>
                             </TableCell>
                         })}
                     </TableRow>
@@ -122,8 +123,8 @@ function Slots() {
                                     className={element.active === true ? "slot_slab active" : "slot_slab"}>
                                     {element.slot}
                                 </span>
-                                <Badge booked={element.active}>{element.active === true ? "Booked "+element.username : "Available"}</Badge>
-                             
+                                <Badge booked={element.active}>{element.active === true ? "Booked " + element.username : "Available"}</Badge>
+
                             </TableCell>
                         })}
                     </TableRow>
@@ -138,7 +139,7 @@ function Slots() {
                                     className={element.active === true ? "slot_slab active" : "slot_slab"}>
                                     {element.slot}
                                 </span>
-                                <Badge booked={element.active}>{element.active === true ? "Booked "+element.username : "Available"}</Badge>
+                                <Badge booked={element.active}>{element.active === true ? "Booked " + element.username : "Available"}</Badge>
                                 {element.active === true && <Badge>hello</Badge>}
                             </TableCell>
                         })}
