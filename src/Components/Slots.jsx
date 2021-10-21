@@ -140,7 +140,7 @@ function Slots() {
                                     {element.slot}
                                 </span>
                                 <Badge booked={element.active}>{element.active === true ? "Booked " + element.username : "Available"}</Badge>
-                                {element.active === true && <Badge>hello</Badge>}
+                                
                             </TableCell>
                         })}
                     </TableRow>
